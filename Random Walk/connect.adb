@@ -11,6 +11,7 @@ with SPARK_Mode is
       Next: Vector;
 
    begin
+
       for I in Index'First+1 .. Index'Last loop
 
          case A(I) is
@@ -38,7 +39,10 @@ with SPARK_Mode is
 
          pragma Loop_Invariant (for all J in Index'First+1 .. I => Walked(J)(1)<=J and Walked(J)(1)>=-J and Walked(J)(2)<=J and Walked(J)(2)>=-J);
 
+         pragma Loop_Invariant(Walked(Index'First)(1)=0 and Walked(Index'First)(2)=0);
+
       end loop;
+
       return Walked;
 
    end Get_Snake;
@@ -53,10 +57,12 @@ with SPARK_Mode is
 
       for I in Index'First+1 .. Index'Last loop
 
-         pragma Loop_Invariant (SX<I*Index'Last and SX>(-I)*Index'Last and SY<I*Index'Last and SY>(-I)*Index'Last);
+         pragma Assert (W(I)(1)-W(I-1)(1)<=1 and W(I)(1)-W(I-1)(1)>=-1);
 
-         SX:=SX+W(I)(1);
-         SY:=SY+W(I)(2);
+         SX:=SX+(W(I)(1)-W(I-1)(1));
+         SY:=SY+(W(I)(2)-W(I-1)(2));
+
+         pragma Loop_Invariant ((SX<(I+1) and SX>(-I-1)) and (SY<(I+1) and SY>(-I-1)));
 
 
       end loop;

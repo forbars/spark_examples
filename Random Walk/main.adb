@@ -17,7 +17,7 @@ procedure Main is
 
    begin
 
-     for K in 1 .. 10000 loop
+     for K in 1 .. 100000 loop
 
        Reset (G);
 
@@ -28,10 +28,10 @@ procedure Main is
        Viper:=Get_Snake(A);
 
        Sum:=Sum+Get_Distance(Viper);
-
+       Put_Line(Integer'Image(Get_Distance(Viper)));
    end loop;
 
-   Average:=Float(Sum)/10000.0;
+   Average:=Float(Sum)/100000.0;
    Put_Line(Float'Image(Average));
 
 end Main;
